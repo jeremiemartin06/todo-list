@@ -3,6 +3,8 @@
 		<div class="col-9">
 			<h1 class="text-center">todos</h1>
 
+			<app-checkbox></app-checkbox>
+
 			<div class="card">
 				<div class="card-header">
 					<div class="form-group">
@@ -13,8 +15,10 @@
 
 				  	<li *ngFor="let item of todoArray; let itemIndex = index" class="list-group-item d-flex justify-content-between">
 				  	<div class="form-check">
-				  		<input class="form-check-input" type="checkbox" id="defaultCheck1">
-						  <label class="form-check-label" for="defaultCheck1">{{item}}</label>
+				  		<input class="form-check-input" type="checkbox" [attr.id]="'todo-check-' + itemIndex" [(ngModel)]='item.checked'>
+						  <label class="form-check-label" [class.done]="item.checked" [attr.for]="'todo-check-' + itemIndex">
+							  {{item.title}}
+							</label>
 						 
 				  	</div>
 				  	<button class="btn btn-outline-danger btn-sm" (click)="removeItem(itemIndex)">
@@ -30,8 +34,12 @@
 				<div class="card-footer d-flex justify-content-between">
     				<div>
     					{{ todoArray.length }} items
-    				</div>
-    				<button class="btn btn-sm btn-link">
+					</div>
+			
+					
+
+
+    				<button *ngIf="atLeastOneChecked" class="btn btn-sm btn-link" (click)="clearCompletedItem()">
     					clear completed
     				</button>
   				</div>

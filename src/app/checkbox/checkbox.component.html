@@ -1,0 +1,5 @@
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" [attr.id]="'todo-check-' + itemIndex" [(ngModel)]='item.checked'>
+    <label class="form-check-label" [class.done]="item.checked" [attr.for]="'todo-check-' + itemIndex">
+        {{item.title}}
+      </label>

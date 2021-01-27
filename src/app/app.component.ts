@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {todoItem} from './todo-item';
+
 
 @Component({
   selector: 'app-root',
@@ -8,14 +10,19 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'todo-list';
 
-  public todoArray: Array<string> = [
-    'item 1',
-    'item 2',
-    'item 3',
-    'item 4',
-    'item 5',
-    'footbar',
-  ];
+  
+
+  public todoArray: Array<todoItem> = [];
+
+  public get atLeastOneChecked(): boolean {
+    for(const item of this.todoArray){
+      if (item.checked) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 // void = pour rien retourner
   public addItem($event: KeyboardEvent): void {
     if ($event.code === 'Enter') {
@@ -23,7 +30,10 @@ export class AppComponent {
       if ($input instanceof HTMLInputElement){
         const str = $input.value.trim();
         if (str !== ''){
-          this.todoArray.push(str);
+          this.todoArray.push({
+            title: $input.value,
+            checked: false,
+          });
         }
         $input.value = '';
       }   
@@ -34,5 +44,14 @@ export class AppComponent {
     if (index > -1 && index < this.todoArray.length) {
     this.todoArray.splice(index, 1);
   }
+}
+
+public clearCompletedItem(): void {
+  for (let i = 0; i < this.todoArray.length; i++) {
+       if (this.todoArray[i].checked === true) {
+         this.todoArray.splice(i, 1);
+         i--;
+       }
+     }
 }
 }
